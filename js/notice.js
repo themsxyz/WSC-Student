@@ -1,4 +1,4 @@
-﻿(async () => {
+(async () => {
   const P = Portal;
   const session = P.requireLogin();
 

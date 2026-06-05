@@ -1,11 +1,11 @@
-﻿window.PORTAL_CONFIG = {
+window.PORTAL_CONFIG = {
   API_URL: "https://script.google.com/macros/s/AKfycbx5uyXdaP-dhKnCdicvsRcnF5cZe1N-iKyWKEcGFWAa4MQXFEDw1_Y8BTch_Dgd2VoPug/exec",
 
   APP: {
-    nameBn: "à¦“à¦¯à¦¼à§‡à¦¸à§à¦Ÿà¦¾à¦°à§à¦¨ à¦¸à§à¦•à§à¦² à¦à¦¨à§à¦¡ à¦•à¦²à§‡à¦œ à¦¸à§à¦Ÿà§à¦¡à§‡à¦¨à§à¦Ÿ à¦ªà§‹à¦°à§à¦Ÿà¦¾à¦²",
+    nameBn: "ওয়েস্টার্ন স্কুল এন্ড কলেজ স্টুডেন্ট পোর্টাল",
     nameEn: "Western School & College Student Portal",
     shortName: "WSC Portal",
-    descriptionBn: "à¦¶à¦¿à¦•à§à¦·à¦¾à¦°à§à¦¥à§€à¦° à¦ªà§à¦°à§‹à¦«à¦¾à¦‡à¦², à¦«à¦¿, à¦°à§‡à¦œà¦¾à¦²à§à¦Ÿ, à¦¨à§‹à¦Ÿà¦¿à¦¶, à¦®à§‡à¦¸à§‡à¦œ à¦“ à¦à¦•à¦¾à¦‰à¦¨à§à¦Ÿ à¦¬à§à¦¯à¦¬à¦¸à§à¦¥à¦¾à¦ªà¦¨à¦¾",
+    descriptionBn: "শিক্ষার্থীর প্রোফাইল, ফি, রেজাল্ট, নোটিশ, মেসেজ ও একাউন্ট ব্যবস্থাপনা",
     descriptionEn: "Student profile, fees, result, notice, message and account management portal",
     logoUrl: "https://res.cloudinary.com/do1dejkkk/image/upload/v1778605133/western_logo_hg9fji_1_vojrqz_1_zjiw5m.png",
     localIcon: "https://res.cloudinary.com/do1dejkkk/image/upload/v1778605133/western_logo_hg9fji_1_vojrqz_1_zjiw5m.png",
@@ -14,18 +14,18 @@
   },
 
   SEO: {
-    title: "à¦“à¦¯à¦¼à§‡à¦¸à§à¦Ÿà¦¾à¦°à§à¦¨ à¦¸à§à¦•à§à¦² à¦à¦¨à§à¦¡ à¦•à¦²à§‡à¦œ | Student Portal",
+    title: "ওয়েস্টার্ন স্কুল এন্ড কলেজ | Student Portal",
     keywords: "student portal, western school and college, result, fees, notice",
     author: "Western School & College",
     ogImage: "https://res.cloudinary.com/do1dejkkk/image/upload/v1778605133/western_logo_hg9fji_1_vojrqz_1_zjiw5m.png"
   },
 
   CONTACT: {
-    helplineTitleBn: "à¦¹à§‡à¦²à§à¦ªà¦²à¦¾à¦‡à¦¨",
+    helplineTitleBn: "হেল্পলাইন",
     helplineTitleEn: "Helpline",
     numbers: [
-      { label: "à¦¹à§‡à¦²à§à¦ªà¦²à¦¾à¦‡à¦¨ à§§", number: "01632426120" },
-      { label: "à¦¹à§‡à¦²à§à¦ªà¦²à¦¾à¦‡à¦¨ à§¨", number: "01820716529" }
+      { label: "হেল্পলাইন ১", number: "01632426120" },
+      { label: "হেল্পলাইন ২", number: "01820716529" }
     ],
     email: ""
   },
@@ -47,12 +47,12 @@
   },
 
   MENU: [
-    { key: "home", labelBn: "à¦¹à§‹à¦®", labelEn: "Home", icon: "fa-house", route: "index.html" },
-    { key: "fees", labelBn: "à¦«à¦¿", labelEn: "Fees", icon: "fa-wallet", route: "fee.html" },
-    { key: "result", labelBn: "à¦°à§‡à¦œà¦¾à¦²à§à¦Ÿ", labelEn: "Result", icon: "fa-chart-simple", route: "result.html" },
-    { key: "notice", labelBn: "à¦¨à§‹à¦Ÿà¦¿à¦¶", labelEn: "Notice", icon: "fa-bullhorn", route: "notice.html", dot: "notice" },
-    { key: "message", labelBn: "à¦®à§‡à¦¸à§‡à¦œ", labelEn: "Message", icon: "fa-envelope", route: "message.html", dot: "message" },
-    { key: "account", labelBn: "à¦à¦•à¦¾à¦‰à¦¨à§à¦Ÿ à¦¸à§‡à¦Ÿà¦¿à¦‚à¦¸", labelEn: "Account Settings", icon: "fa-user-gear", route: "account.html" }
+    { key: "home", labelBn: "হোম", labelEn: "Home", icon: "fa-house", route: "index.html" },
+    { key: "fees", labelBn: "ফি", labelEn: "Fees", icon: "fa-wallet", route: "fee.html" },
+    { key: "result", labelBn: "রেজাল্ট", labelEn: "Result", icon: "fa-chart-simple", route: "result.html" },
+    { key: "notice", labelBn: "নোটিশ", labelEn: "Notice", icon: "fa-bullhorn", route: "notice.html", dot: "notice" },
+    { key: "message", labelBn: "মেসেজ", labelEn: "Message", icon: "fa-envelope", route: "message.html", dot: "message" },
+    { key: "account", labelBn: "একাউন্ট সেটিংস", labelEn: "Account Settings", icon: "fa-user-gear", route: "account.html" }
   ],
 
   STORAGE: {
@@ -75,8 +75,8 @@
 
   NOTICE: {
     autoRefreshSeconds: 60,
-    notificationTitle: "à¦¨à¦¤à§à¦¨ à¦¨à§‹à¦Ÿà¦¿à¦¶",
-    notificationBody: "à¦¨à¦¤à§à¦¨ à¦à¦•à¦Ÿà¦¿ à¦¨à§‹à¦Ÿà¦¿à¦¶ à¦à¦¸à§‡à¦›à§‡à¥¤"
+    notificationTitle: "নতুন নোটিশ",
+    notificationBody: "নতুন একটি নোটিশ এসেছে।"
   }
 };
 

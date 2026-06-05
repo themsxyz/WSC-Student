@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = "wsc-student-portal-notice-final-v20260605134927";
+const CACHE_NAME = "wsc-student-portal-utf8-fixed-v20260605135057";
 
 const ASSETS = [
   "./",
