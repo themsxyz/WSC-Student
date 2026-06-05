@@ -1,4 +1,4 @@
-const CACHE_NAME = "wsc-student-portal-utf8-fixed-v20260605135057";
+﻿const CACHE_NAME = "wsc-student-portal-dashboard-fetch-fixed-v20260605140014";
 
 const ASSETS = [
   "./",
@@ -68,4 +68,5 @@ self.addEventListener("fetch", event => {
     }).catch(() => caches.match("./index.html"))
   );
 });
+
 
