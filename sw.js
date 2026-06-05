@@ -1,4 +1,4 @@
-const CACHE_NAME = "wsc-student-portal-final-v20260605-apple-menu-fastload-01";
+﻿const CACHE_NAME = "wsc-student-portal-notice-fixed-v20260605134748";
 
 const ASSETS = [
   "./",

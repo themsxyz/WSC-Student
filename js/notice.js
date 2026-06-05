@@ -1,4 +1,4 @@
-(async () => {
+﻿(async () => {
   const P = Portal;
   const session = P.requireLogin();
 
@@ -8,24 +8,46 @@
   P.setPageLoader("নোটিশ লোড হচ্ছে...");
 
   await loadNotices();
-
   setInterval(loadNotices, P.C.NOTICE.autoRefreshSeconds * 1000);
 
   async function loadNotices() {
     try {
       const res = await P.apiGet({
-        action: P.C.API_ACTIONS.getNotices
+        action: P.C.API_ACTIONS.getNotices,
+        studentId: session.studentId || "",
+        token: session.token || "",
+        mobile: session.mobile || ""
       });
 
-      if (!res.success) {
-        throw new Error(res.error || "নোটিশ লোড হয়নি।");
+      console.log("Notice API response:", res);
+
+      if (!res || res.success === false) {
+        throw new Error((res && res.error) ? res.error : "নোটিশ লোড হয়নি। Backend response check করুন।");
       }
 
-      const notices = res.notices || [];
-      P.markNoticeSeen(notices);
-      render(notices);
+      const notices =
+        res.notices ||
+        res.notice ||
+        res.data ||
+        res.rows ||
+        res.activeNotices ||
+        [];
+
+      const cleanNotices = Array.isArray(notices) ? notices : [];
+
+      P.markNoticeSeen(cleanNotices);
+      render(cleanNotices);
     } catch (err) {
-      document.querySelector("#page").innerHTML = `<div class="msg error">${P.esc(err.message)}</div>`;
+      document.querySelector("#page").innerHTML = `
+        <div class="msg error">
+          ${P.esc(err.message)}<br><br>
+          <strong>Check:</strong><br>
+          1. config.js API_URL ঠিক আছে কিনা<br>
+          2. Apps Script doGet এ getNotices action আছে কিনা<br>
+          3. Apps Script deployment access Anyone করা আছে কিনা<br>
+          4. Browser old service worker cache clear করা হয়েছে কিনা
+        </div>
+      `;
     }
   }
 
@@ -53,25 +75,36 @@
     document.querySelector("#refreshNotice").onclick = loadNotices;
   }
 
+  function getNoticeText(item) {
+    return item.notice || item.message || item.title || item.Notice || item.Message || item["Notice"] || "";
+  }
+
+  function getNoticeDate(item) {
+    return item.date || item.createdAt || item.timestamp || item.Date || item.Timestamp || "";
+  }
+
   function ticker(notices) {
     const list = notices.concat(notices);
     return `
       <div class="notice-ticker">
         <div class="notice-ticker-track">
-          ${list.map(n => `<span>📢 ${P.esc(n.notice || "")}</span>`).join("")}
+          ${list.map(n => `<span>📢 ${P.esc(getNoticeText(n))}</span>`).join("")}
         </div>
       </div>
     `;
   }
 
   function card(item) {
+    const noticeText = getNoticeText(item);
+    const noticeDate = getNoticeDate(item);
+
     return `
       <article class="notice-card">
         <h3><i class="fa-solid fa-bell"></i> নোটিশ</h3>
-        <p class="notice-message">${P.esc(item.notice || "")}</p>
+        <p class="notice-message">${P.esc(noticeText)}</p>
         <div class="notice-meta">
-          ${P.chip("প্রকাশ: " + P.formatDate(item.date), "primary", "fa-calendar")}
-          ${P.chip("সময়: " + (item.noticeAppearDuration || "নির্দিষ্ট নয়"), "", "fa-clock")}
+          ${P.chip("প্রকাশ: " + P.formatDate(noticeDate), "primary", "fa-calendar")}
+          ${P.chip("সময়: " + (item.noticeAppearDuration || item.duration || "নির্দিষ্ট নয়"), "", "fa-clock")}
           ${P.chip("শেষ: " + (item.expireAt ? P.formatDate(item.expireAt) : "স্থায়ী"), "", "fa-hourglass-end")}
         </div>
       </article>
