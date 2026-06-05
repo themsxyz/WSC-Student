@@ -1,4 +1,4 @@
-﻿const Portal = (() => {
+const Portal = (() => {
   const C = window.PORTAL_CONFIG;
 
   const qs = (s, r = document) => r.querySelector(s);
@@ -82,7 +82,7 @@
       const controller = new AbortController();
       const timer = setTimeout(() => {
         controller.abort();
-        reject(new Error("Request timeout. Backend/App URL check à¦•à¦°à§à¦¨à¥¤"));
+        reject(new Error("Request timeout. Backend/App URL check করুন।"));
       }, timeoutMs);
 
       fetch(url, {
@@ -97,7 +97,7 @@
           try {
             resolve(JSON.parse(text));
           } catch {
-            reject(new Error("Backend JSON response à¦ªà¦¾à¦“à§Ÿà¦¾ à¦¯à¦¾à§Ÿà¦¨à¦¿à¥¤ App URL/deploy response check à¦•à¦°à§à¦¨à¥¤"));
+            reject(new Error("Backend JSON response পাওয়া যায়নি। App URL/deploy response check করুন।"));
           }
         })
         .catch(err => {
@@ -144,21 +144,27 @@
 
   async function apiGet(params) {
     /*
-      GitHub Pages + Apps Script direct fetch often gives CORS "Failed to fetch".
-      So GET requests use JSONP first. Direct fetch is only fallback.
+      This backend returns normal JSON in browser.
+      So direct GET fetch must run first.
+      JSONP is only fallback if backend later supports callback.
     */
-    try {
-      return await jsonp(params, 15000);
-    } catch (jsonpError) {
-      const url = C.API_URL + "?" + new URLSearchParams({ ...params, _: Date.now() }).toString();
+    const query = new URLSearchParams({ ...params, _: Date.now() }).toString();
+    const separator = C.API_URL.includes("?") ? "&" : "?";
+    const url = C.API_URL + separator + query;
 
+    try {
+      return await requestJson(url, {
+        method: "GET",
+        redirect: "follow"
+      }, 20000);
+    } catch (fetchError) {
       try {
-        return await requestJson(url, { method: "GET" }, 15000);
-      } catch (fetchError) {
+        return await jsonp(params, 5000);
+      } catch (jsonpError) {
         throw new Error(
-          jsonpError.message ||
           fetchError.message ||
-          "Data load failed. Apps Script JSONP/doGet callback check করুন।"
+          jsonpError.message ||
+          "Data load failed. Backend/CORS check needed."
         );
       }
     }
@@ -192,7 +198,7 @@
       });
 
       if (!data.success) {
-        throw new Error(data.error || "Dashboard data load à¦¹à§Ÿà¦¨à¦¿à¥¤");
+        throw new Error(data.error || "Dashboard data load হয়নি।");
       }
 
       setCache(data);
@@ -201,7 +207,7 @@
       const cached = getCache();
 
       if (cached && cached.success && cached.profile) {
-        cached._offlineWarning = err.message;
+        cached._offlineWarning = "";
         return cached;
       }
 
@@ -213,7 +219,7 @@
           results: [],
           uploads: {},
           feeSummary: {},
-          _offlineWarning: err.message
+          _offlineWarning: ""
         };
       }
 
@@ -311,7 +317,7 @@
     const l = clean(text);
     let cls = "";
 
-    if (l.includes("pass") || l.includes("paid") || l.includes("active") || l.includes("à¦­à¦¾à¦²à§‹")) {
+    if (l.includes("pass") || l.includes("paid") || l.includes("active") || l.includes("ভালো")) {
       cls = "good";
     }
 
@@ -340,14 +346,14 @@
 
   function feeItems(row) {
     const fields = [
-      ["tuition_fee", "à¦Ÿà¦¿à¦‰à¦¶à¦¨ à¦«à¦¿"],
-      ["admission_fee", "à¦­à¦°à§à¦¤à¦¿ à¦«à¦¿"],
-      ["re_admission_fee", "à¦ªà§à¦¨à¦ƒà¦­à¦°à§à¦¤à¦¿ à¦«à¦¿"],
-      ["exam_fee", "à¦ªà¦°à§€à¦•à§à¦·à¦¾à¦° à¦«à¦¿"],
-      ["computer_fee", "à¦•à¦®à§à¦ªà¦¿à¦‰à¦Ÿà¦¾à¦° à¦«à¦¿"],
-      ["sports_fee", "à¦–à§‡à¦²à¦¾à¦§à§à¦²à¦¾ à¦«à¦¿"],
-      ["tc_fee", "à¦Ÿà¦¿à¦¸à¦¿ à¦«à¦¿"],
-      ["misc_fee", "à¦¬à¦¿à¦¬à¦¿à¦§ à¦«à¦¿"]
+      ["tuition_fee", "টিউশন ফি"],
+      ["admission_fee", "ভর্তি ফি"],
+      ["re_admission_fee", "পুনঃভর্তি ফি"],
+      ["exam_fee", "পরীক্ষার ফি"],
+      ["computer_fee", "কম্পিউটার ফি"],
+      ["sports_fee", "খেলাধুলা ফি"],
+      ["tc_fee", "টিসি ফি"],
+      ["misc_fee", "বিবিধ ফি"]
     ];
 
     return fields
@@ -356,7 +362,7 @@
   }
 
   function profileCard(profile) {
-    const name = profile?.["Name"] || "à¦¶à¦¿à¦•à§à¦·à¦¾à¦°à§à¦¥à§€";
+    const name = profile?.["Name"] || "শিক্ষার্থী";
     const photo = photoFromProfile(profile);
     const first = name.trim().charAt(0) || "S";
 
@@ -384,14 +390,14 @@
   function fullProfileDetails(profile) {
     return `
       <div class="grid-2">
-        ${info("à¦®à§‹à¦¬à¦¾à¦‡à¦² à¦¨à¦®à§à¦¬à¦°", profile["Number"], "fa-phone")}
-        ${info("à¦²à¦¿à¦™à§à¦—", profile["Gender"], "fa-venus-mars")}
-        ${info("à¦ªà¦¿à¦¤à¦¾à¦° à¦¨à¦¾à¦®", profile["Fathers name"], "fa-person")}
-        ${info("à¦®à¦¾à¦¤à¦¾à¦° à¦¨à¦¾à¦®", profile["Mothers name"], "fa-person-dress")}
-        ${info("à¦œà¦¨à§à¦® à¦¤à¦¾à¦°à¦¿à¦–", formatDate(profile["Birthday"]), "fa-cake-candles")}
-        ${info("à¦œà¦¨à§à¦® à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¨ à¦¨à¦®à§à¦¬à¦°", profile["Birth certificate number"], "fa-id-card")}
-        ${info("à¦°à¦•à§à¦¤à§‡à¦° à¦—à§à¦°à§à¦ª", profile["Blood group"], "fa-droplet")}
-        ${info("à¦ à¦¿à¦•à¦¾à¦¨à¦¾", profile["Address"], "fa-location-dot")}
+        ${info("মোবাইল নম্বর", profile["Number"], "fa-phone")}
+        ${info("লিঙ্গ", profile["Gender"], "fa-venus-mars")}
+        ${info("পিতার নাম", profile["Fathers name"], "fa-person")}
+        ${info("মাতার নাম", profile["Mothers name"], "fa-person-dress")}
+        ${info("জন্ম তারিখ", formatDate(profile["Birthday"]), "fa-cake-candles")}
+        ${info("জন্ম নিবন্ধন নম্বর", profile["Birth certificate number"], "fa-id-card")}
+        ${info("রক্তের গ্রুপ", profile["Blood group"], "fa-droplet")}
+        ${info("ঠিকানা", profile["Address"], "fa-location-dot")}
       </div>
     `;
   }
@@ -612,11 +618,11 @@
       await Promise.all(regs.map(r => r.update().catch(() => {})));
     }
 
-    alert("Cache clear à¦¹à§Ÿà§‡à¦›à§‡à¥¤ à¦à¦–à¦¨ reload à¦¹à¦¬à§‡à¥¤");
+    alert("Cache clear হয়েছে। এখন reload হবে।");
     location.reload();
   }
 
-  function setPageLoader(text = "à¦²à§‹à¦¡ à¦¹à¦šà§à¦›à§‡...") {
+  function setPageLoader(text = "লোড হচ্ছে...") {
     qs("#page").innerHTML = `
       <div class="splash-card" style="margin:60px auto">
         <div class="loader-line"><span></span></div>
@@ -661,7 +667,7 @@
 
   async function installApp() {
     if (!deferredInstallPrompt) {
-      alert("Browser menu à¦¥à§‡à¦•à§‡ Add to Home Screen / Install App à¦¬à§à¦¯à¦¬à¦¹à¦¾à¦° à¦•à¦°à§à¦¨à¥¤");
+      alert("Browser menu থেকে Add to Home Screen / Install App ব্যবহার করুন।");
       return;
     }
 

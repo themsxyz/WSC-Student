@@ -1,0 +1,56 @@
+﻿<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>API Test</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f6f9ff;color:#102033;padding:20px}
+    .box{max-width:900px;margin:auto;background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:20px}
+    input,button{padding:12px;border-radius:12px;border:1px solid #ddd;margin:5px}
+    button{background:#173b78;color:#fff;font-weight:bold}
+    pre{white-space:pre-wrap;background:#f1f5f9;padding:14px;border-radius:14px}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>WSC API Test</h2>
+    <input id="studentId" placeholder="Student ID">
+    <input id="mobile" placeholder="Mobile">
+    <button onclick="testLogin()">Test Login</button>
+    <button onclick="testNotice()">Test Notice</button>
+    <pre id="out">Result will show here...</pre>
+  </div>
+
+  <script src="./config.js"></script>
+  <script>
+    async function callApi(params){
+      const url = PORTAL_CONFIG.API_URL + "?" + new URLSearchParams({...params, _:Date.now()}).toString();
+      const res = await fetch(url, {method:"GET", redirect:"follow", cache:"no-store"});
+      const text = await res.text();
+      try { return JSON.stringify(JSON.parse(text), null, 2); }
+      catch(e){ return text; }
+    }
+
+    async function testLogin(){
+      const studentId = document.getElementById("studentId").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      document.getElementById("out").textContent = "Loading login...";
+      try {
+        document.getElementById("out").textContent = await callApi({action:"login", studentId, mobile});
+      } catch(e) {
+        document.getElementById("out").textContent = "ERROR: " + e.message;
+      }
+    }
+
+    async function testNotice(){
+      document.getElementById("out").textContent = "Loading notice...";
+      try {
+        document.getElementById("out").textContent = await callApi({action:"getNotices"});
+      } catch(e) {
+        document.getElementById("out").textContent = "ERROR: " + e.message;
+      }
+    }
+  </script>
+</body>
+</html>
