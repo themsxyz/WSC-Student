@@ -21,32 +21,30 @@
 
       console.log("Notice API response:", res);
 
-      if (!res || res.success === false) {
-        throw new Error((res && res.error) ? res.error : "নোটিশ লোড হয়নি। Backend response check করুন।");
+      if (!res || res.success !== true) {
+        throw new Error((res && res.error) ? res.error : "নোটিশ লোড হয়নি।");
       }
 
-      const notices =
-        res.notices ||
-        res.notice ||
-        res.data ||
-        res.rows ||
-        res.activeNotices ||
-        [];
+      const notices = Array.isArray(res.notices) ? res.notices : [];
 
-      const cleanNotices = Array.isArray(notices) ? notices : [];
+      const activeNotices = notices.filter(item => {
+        const status = String(item.status || "").toLowerCase().trim();
+        return !status || status === "active";
+      });
 
-      P.markNoticeSeen(cleanNotices);
-      render(cleanNotices);
+      P.markNoticeSeen(activeNotices);
+      render(activeNotices);
     } catch (err) {
       document.querySelector("#page").innerHTML = `
-        <div class="msg error">
-          ${P.esc(err.message)}<br><br>
-          <strong>Check:</strong><br>
-          1. config.js API_URL ঠিক আছে কিনা<br>
-          2. Apps Script doGet এ getNotices action আছে কিনা<br>
-          3. Apps Script deployment access Anyone করা আছে কিনা<br>
-          4. Browser old service worker cache clear করা হয়েছে কিনা
-        </div>
+        <section class="card">
+          <div class="card-body">
+            <div class="msg error">
+              ${P.esc(err.message)}<br><br>
+              Backend response ঠিক আছে কিনা console থেকে check করুন।
+            </div>
+            <button class="btn-soft" onclick="location.reload()">Reload</button>
+          </div>
+        </section>
       `;
     }
   }
@@ -57,11 +55,14 @@
 
       <section class="card">
         <div class="card-head">
-          <h2 class="card-title"><i class="fa-solid fa-bullhorn"></i> সক্রিয় নোটিশ</h2>
+          <h2 class="card-title">
+            <i class="fa-solid fa-bullhorn"></i> সক্রিয় নোটিশ
+          </h2>
           <button class="btn-soft" id="refreshNotice">
             <i class="fa-solid fa-rotate"></i> Refresh
           </button>
         </div>
+
         <div class="card-body">
           ${notices.length ? `
             <div class="stack">
@@ -76,15 +77,20 @@
   }
 
   function getNoticeText(item) {
-    return item.notice || item.message || item.title || item.Notice || item.Message || item["Notice"] || "";
+    return item.notice || item.message || item.title || item.Notice || item.Message || "";
   }
 
   function getNoticeDate(item) {
     return item.date || item.createdAt || item.timestamp || item.Date || item.Timestamp || "";
   }
 
+  function getExpireDate(item) {
+    return item.expireAt || item.expire_at || item.expiry || item.ExpireAt || "";
+  }
+
   function ticker(notices) {
     const list = notices.concat(notices);
+
     return `
       <div class="notice-ticker">
         <div class="notice-ticker-track">
@@ -97,15 +103,18 @@
   function card(item) {
     const noticeText = getNoticeText(item);
     const noticeDate = getNoticeDate(item);
+    const expireDate = getExpireDate(item);
 
     return `
       <article class="notice-card">
         <h3><i class="fa-solid fa-bell"></i> নোটিশ</h3>
+
         <p class="notice-message">${P.esc(noticeText)}</p>
+
         <div class="notice-meta">
-          ${P.chip("প্রকাশ: " + P.formatDate(noticeDate), "primary", "fa-calendar")}
-          ${P.chip("সময়: " + (item.noticeAppearDuration || item.duration || "নির্দিষ্ট নয়"), "", "fa-clock")}
-          ${P.chip("শেষ: " + (item.expireAt ? P.formatDate(item.expireAt) : "স্থায়ী"), "", "fa-hourglass-end")}
+          ${P.chip("প্রকাশ: " + (noticeDate || "-"), "primary", "fa-calendar")}
+          ${P.chip("সময়: " + (item.noticeAppearDuration || "নির্দিষ্ট নয়"), "", "fa-clock")}
+          ${P.chip("শেষ: " + (expireDate || "স্থায়ী"), "", "fa-hourglass-end")}
         </div>
       </article>
     `;
