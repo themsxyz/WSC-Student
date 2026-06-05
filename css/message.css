@@ -1,0 +1,26 @@
+.message-card {
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--message);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.message-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.message-card p {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.75;
+}
+
+.message-meta {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}

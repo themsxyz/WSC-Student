@@ -1,0 +1,85 @@
+:root {
+  --sidebar-width: 285px;
+  --topbar-height: 72px;
+  --radius-sm: 12px;
+  --radius: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, .10), transparent 340px),
+    radial-gradient(circle at bottom right, rgba(216, 155, 32, .10), transparent 340px),
+    var(--bg);
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--primary-soft);
+}
+
+.app-shell {
+  width: min(1440px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  gap: 22px;
+  padding: 20px;
+}
+
+.content-shell {
+  min-width: 0;
+}
+
+.page {
+  animation: fadeUp .25s ease both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    display: block;
+    padding: 12px;
+  }
+
+  body {
+    padding-bottom: 18px;
+  }
+}

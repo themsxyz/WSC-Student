@@ -1,0 +1,20 @@
+{
+  "name": "ওয়েস্টার্ন স্কুল এন্ড কলেজ স্টুডেন্ট পোর্টাল",
+  "short_name": "WSC Portal",
+  "description": "Student profile, fees, result, notice, message and account portal",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "portrait",
+  "lang": "bn",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/do1dejkkk/image/upload/v1778605133/western_logo_hg9fji_1_vojrqz_1_zjiw5m.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

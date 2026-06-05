@@ -1,0 +1,158 @@
+/*
+  APPLE HAMBURGER MENU FILE
+  Mobile hamburger, drawer, backdrop, close animation sob ekhane.
+*/
+
+.hamburger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 15px;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+
+.hamburger span {
+  position: absolute;
+  left: 11px;
+  width: 20px;
+  height: 2px;
+  border-radius: 99px;
+  background: var(--text);
+  transition:
+    top .25s cubic-bezier(.2,.8,.2,1),
+    transform .25s cubic-bezier(.2,.8,.2,1),
+    opacity .18s ease;
+}
+
+.hamburger span:nth-child(1) {
+  top: 16px;
+}
+
+.hamburger span:nth-child(2) {
+  top: 25px;
+}
+
+.hamburger.open span:nth-child(1) {
+  top: 21px;
+  transform: rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  top: 21px;
+  transform: rotate(-45deg);
+}
+
+.mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 98;
+  background: rgba(2, 6, 23, .45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s ease;
+  backdrop-filter: blur(5px);
+}
+
+.mobile-drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-drawer {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 99;
+  width: min(350px, calc(100vw - 20px));
+  max-height: calc(100dvh - 20px);
+  overflow: auto;
+  padding: 18px;
+  background: rgba(255,255,255,.94);
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 30px;
+  transform: translateX(110%) scale(.96);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform .28s cubic-bezier(.2,.8,.2,1),
+    opacity .22s ease;
+  box-shadow: 0 30px 80px rgba(15,23,42,.28);
+  backdrop-filter: blur(22px) saturate(160%);
+}
+
+[data-theme="dark"] .mobile-drawer {
+  background: rgba(15,23,42,.94);
+  border-color: rgba(255,255,255,.10);
+}
+
+.mobile-drawer.open {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-drawer-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.mobile-drawer-head img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.mobile-drawer-head h2 {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.mobile-drawer-head p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  font-family: var(--font-en);
+}
+
+.mobile-menu {
+  display: grid;
+  gap: 8px;
+}
+
+.mobile-menu .menu-link {
+  transform: translateX(12px);
+  opacity: 0;
+}
+
+.mobile-drawer.open .mobile-menu .menu-link {
+  animation: menuItemIn .32s ease forwards;
+}
+
+.mobile-drawer.open .mobile-menu .menu-link:nth-child(1) { animation-delay: .03s; }
+.mobile-drawer.open .mobile-menu .menu-link:nth-child(2) { animation-delay: .06s; }
+.mobile-drawer.open .mobile-menu .menu-link:nth-child(3) { animation-delay: .09s; }
+.mobile-drawer.open .mobile-menu .menu-link:nth-child(4) { animation-delay: .12s; }
+.mobile-drawer.open .mobile-menu .menu-link:nth-child(5) { animation-delay: .15s; }
+.mobile-drawer.open .mobile-menu .menu-link:nth-child(6) { animation-delay: .18s; }
+
+@keyframes menuItemIn {
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 980px) {
+  .hamburger {
+    display: block;
+  }
+}

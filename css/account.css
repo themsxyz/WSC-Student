@@ -1,0 +1,44 @@
+.upload-card {
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.upload-card h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-note {
+  margin: 0 0 12px;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.camera-modal video {
+  width: 100%;
+  border-radius: 18px;
+  background: #000000;
+}
+
+.camera-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.camera-actions button {
+  flex: 1;
+}
+
+.account-warning {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}

@@ -1,0 +1,68 @@
+.exam-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.exam-tab {
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+  color: var(--muted);
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+  font-weight: 900;
+}
+
+.exam-tab.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+.subject-card {
+  padding: 16px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.subject-card h3 {
+  margin: 0 0 12px;
+  font-size: 17px;
+}
+
+.marks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.mark-box {
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 10px;
+}
+
+.mark-box small {
+  color: var(--muted);
+  font-weight: 900;
+  font-size: 11px;
+}
+
+.mark-box strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 18px;
+}
+
+@media (max-width: 640px) {
+  .exam-tab {
+    flex: 1;
+  }
+
+  .marks-grid {
+    grid-template-columns: 1fr;
+  }
+}

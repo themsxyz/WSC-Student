@@ -1,0 +1,49 @@
+.notice-ticker {
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--primary);
+  color: #ffffff;
+  margin-bottom: 16px;
+  border: 1px solid rgba(255,255,255,.15);
+}
+
+.notice-ticker-track {
+  display: inline-flex;
+  gap: 48px;
+  white-space: nowrap;
+  padding: 13px 0;
+  font-weight: 900;
+  animation: noticeMove 28s linear infinite;
+}
+
+@keyframes noticeMove {
+  from { transform: translateX(100vw); }
+  to { transform: translateX(-100%); }
+}
+
+.notice-card {
+  padding: 18px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  border-left: 6px solid var(--gold);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.notice-card h3 {
+  margin: 0 0 9px;
+  font-size: 18px;
+}
+
+.notice-message {
+  margin: 0 0 13px;
+  white-space: pre-wrap;
+  line-height: 1.75;
+  font-size: 16px;
+}
+
+.notice-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

@@ -1,0 +1,53 @@
+.fee-explain {
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  background: var(--gold-soft);
+  border: 1px solid rgba(216, 155, 32, .22);
+  line-height: 1.8;
+  font-weight: 750;
+}
+
+.fee-record {
+  padding: 15px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 20px;
+}
+
+.fee-record-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.fee-record h3 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.fee-record p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 800;
+}
+
+.fee-amount {
+  white-space: nowrap;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--success);
+}
+
+.fee-list {
+  display: grid;
+  gap: 10px;
+}
+
+@media (max-width: 640px) {
+  .fee-record-top {
+    flex-direction: column;
+  }
+}
